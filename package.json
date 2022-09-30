@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm -C play dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@jasin-y/components": "workspace:^1.0.0",
+    "@jasin-y/theme-chalk": "workspace:^1.0.0",
+    "@jasin-y/utils": "workspace:^1.0.0",
+    "typescript": "^4.8.4",
+    "vue": "^3.2.40"
+  },
+  "devDependencies": {
+    "sass": "^1.55.0",
+    "unplugin-vue-define-options": "0.12.0-beta.1"
+  }
+}
