@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { createNamespace } from "@jasin-y/utils/create";
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import { iconProps } from "./icon";
 
 defineOptions({
