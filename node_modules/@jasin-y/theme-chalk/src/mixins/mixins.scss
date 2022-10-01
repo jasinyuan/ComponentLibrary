@@ -1,9 +1,9 @@
-@use "config" as *;
-@forward "config";
+@use 'config' as *;
+@forward 'config';
 
 //.z-button{}
 @mixin b($blok) {
-  $B: $namespace + "-" + $blok;
+  $B: $namespace + '-' + $blok;
   .#{$B} {
     @content;
   }
@@ -19,7 +19,7 @@
 //&--primary => .z-button--primary
 @mixin m($modifier) {
   @at-root {
-    #{& + $modifier-spearator + $modifier} {
+    #{& + $modifier-separator + $modifier} {
       @content;
     }
   }
@@ -27,7 +27,7 @@
 //&__header => .z-button__header
 @mixin e($element) {
   @at-root {
-    #{& + $element-spearator + $element} {
+    #{& + $element-separator + $element} {
       @content;
     }
   }
