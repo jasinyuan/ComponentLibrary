@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 //block 代码块   element 元素  modifier 装饰     state 状态
 //y-button
 //y-button__element

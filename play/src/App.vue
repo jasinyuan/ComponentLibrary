@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TreeOption } from '@jasin-y/components/tree/src/tree'
+import { Key, TreeOption } from '@jasin-y/components/tree/src/tree'
 import { AddCircle } from '@vicons/ionicons5'
 import { ref } from 'vue'
 
@@ -76,13 +76,22 @@ const handleLoad = (node: TreeOption) => {
     }, 1000)
   })
 }
+const value = ref<Key[]>(['40', '41'])
 </script>
 
 <template>
   <y-icon :color="'red'" :size="20">
     <AddCircle></AddCircle>
   </y-icon>
-  <y-tree :data="data" :on-load="handleLoad"> </y-tree>
+  <y-tree
+    :data="data"
+    :on-load="handleLoad"
+    v-model:selected-keys="value"
+    selectable
+    multiple
+  >
+  </y-tree>
+  <!-- selectable:可以选择节点  multiple:意味着可以多选节点 -->
 </template>
 
 <style scoped></style>

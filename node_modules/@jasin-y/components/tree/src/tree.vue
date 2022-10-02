@@ -6,16 +6,19 @@
       :node="node"
       :expanded="isExpanded(node)"
       :loadingKeys="loadingKeyRef"
+      :selectedKeys="selectKeysRef"
       @toggle="toggleExpand"
+      @select="handleSelect"
     ></y-tree-node>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { treeProps, TreeNode, TreeOption, Key } from './tree'
+import { treeProps, TreeNode, TreeOption, Key, treeEmitts } from './tree'
 import { createNamespace } from '@jasin-y/utils/create'
 import YTreeNode from './treeNode.vue'
+import { rollupVersion } from 'vite'
 
 const bem = createNamespace('tree')
 
@@ -155,5 +158,46 @@ function toggleExpand(node: TreeNode) {
   } else {
     expand(node)
   }
+}
+
+//5实现选中节点
+const emit = defineEmits(treeEmitts)
+const selectKeysRef = ref<Key[]>([])
+
+console.log(selectKeysRef.value)
+console.log(Array.from(selectKeysRef.value))
+
+watch(
+  () => props.selectedKeys,
+  value => {
+    if (value) {
+      selectKeysRef.value = value
+      console.log('selectedKeys', value)
+    }
+  },
+  {
+    immediate: true
+  }
+)
+//处理选中节点
+function handleSelect(node: TreeNode) {
+  let keys = Array.from(selectKeysRef.value)
+
+  if (!props.selectable) {
+    const index = keys.findIndex(key => key === node.key)
+    if (index > -1) {
+      keys.splice(index)
+    } else {
+      keys.push(node.key)
+    }
+    return //如果不能选择就什么都不做
+  } else {
+    if (keys.includes(node.key)) {
+      keys = []
+    } else {
+      keys = [node.key]
+    }
+  }
+  emit('update:selectedKeys', keys)
 }
 </script>
