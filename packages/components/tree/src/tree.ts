@@ -1,4 +1,9 @@
-import { ExtractDefaultPropTypes, PropType } from 'vue'
+import {
+  ExtractDefaultPropTypes,
+  InjectionKey,
+  PropType,
+  SetupContext
+} from 'vue'
 
 export type Key = string | number
 
@@ -8,13 +13,14 @@ export interface TreeNode extends Required<TreeOption> {
   children: TreeNode[]
   isLeaf: boolean
 }
-//equired将类型中所有选项变为必选，去除所有？
+//Required将类型中所有选项变为必选，去除所有？
 
 export interface TreeOption {
   label?: Key
   key?: Key
   children?: TreeOption[]
-  isLeaf: boolean
+  isLeaf?: boolean
+  disabled?: boolean
   [key: string]: unknown //任意接口
 }
 
@@ -85,3 +91,15 @@ export const treeEmitts = {
 export type TreeProps = Partial<ExtractDefaultPropTypes<typeof treeProps>>
 
 //Partial<T> 可以快速把某个接口类型中定义的属性变成可选的(Optional)：
+export interface TreeContext {
+  slots: SetupContext['slots']
+}
+//此变量作为提供出去的属性
+export const treeInjectKey: InjectionKey<TreeContext> = Symbol()
+
+export const treeNodeContentProps = {
+  node: {
+    type: Object as PropType<TreeNode>,
+    required: true
+  }
+}

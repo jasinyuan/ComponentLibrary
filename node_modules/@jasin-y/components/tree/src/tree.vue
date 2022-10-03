@@ -1,24 +1,34 @@
 <template>
   <div :class="bem.b()">
-    <y-tree-node
-      v-for="node in flattenTree"
-      :key="node.key"
-      :node="node"
-      :expanded="isExpanded(node)"
-      :loadingKeys="loadingKeyRef"
-      :selectedKeys="selectKeysRef"
-      @toggle="toggleExpand"
-      @select="handleSelect"
-    ></y-tree-node>
+    <y-virtual-list :items="flattenTree" :remain="8" :size="35">
+      <template #default="{ node }">
+        <y-tree-node
+          :key="node.key"
+          :node="node"
+          :expanded="isExpanded(node)"
+          :loading-keys="loadingKeyRef"
+          :selected-keys="selectKeysRef"
+          @toggle="toggleExpand"
+          @select="handleSelect"
+        ></y-tree-node>
+      </template>
+    </y-virtual-list>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { treeProps, TreeNode, TreeOption, Key, treeEmitts } from './tree'
+import { computed, provide, ref, useSlots, watch } from 'vue'
+import {
+  treeProps,
+  TreeNode,
+  TreeOption,
+  Key,
+  treeEmitts,
+  treeInjectKey
+} from './tree'
 import { createNamespace } from '@jasin-y/utils/create'
 import YTreeNode from './treeNode.vue'
-import { rollupVersion } from 'vite'
+import YVirtualList from '@jasin-y/components/virtual-list'
 
 const bem = createNamespace('tree')
 
@@ -64,6 +74,7 @@ function createTree(data: TreeOption[], parent: TreeNode | null = null) {
         children: [], //默认为空
         rawNode: node,
         level: parent ? parent.level + 1 : 0,
+        disabled: !!node.disabled,
         //判断节点是否带isleaf 如果自带了，以自带为准，如果没有自带，则检查是否有children属性
         isLeaf: node.isLeaf ?? children.length == 0
       }
@@ -153,7 +164,7 @@ function expand(node: TreeNode) {
 //4.让用户点击展开
 function toggleExpand(node: TreeNode) {
   const expandKeys = expandedKeySet.value
-  if (expandKeys.has(node.key) && loadingKeyRef.value.has(node.key)) {
+  if (expandKeys.has(node.key) && !loadingKeyRef.value.has(node.key)) {
     collpase(node)
   } else {
     expand(node)
@@ -164,15 +175,11 @@ function toggleExpand(node: TreeNode) {
 const emit = defineEmits(treeEmitts)
 const selectKeysRef = ref<Key[]>([])
 
-console.log(selectKeysRef.value)
-console.log(Array.from(selectKeysRef.value))
-
 watch(
   () => props.selectedKeys,
   value => {
     if (value) {
       selectKeysRef.value = value
-      console.log('selectedKeys', value)
     }
   },
   {
@@ -183,14 +190,14 @@ watch(
 function handleSelect(node: TreeNode) {
   let keys = Array.from(selectKeysRef.value)
 
-  if (!props.selectable) {
+  if (!props.selectable) return //如果不能选择就什么都不做
+  if (props.multiple) {
     const index = keys.findIndex(key => key === node.key)
     if (index > -1) {
       keys.splice(index)
     } else {
       keys.push(node.key)
     }
-    return //如果不能选择就什么都不做
   } else {
     if (keys.includes(node.key)) {
       keys = []
@@ -200,4 +207,8 @@ function handleSelect(node: TreeNode) {
   }
   emit('update:selectedKeys', keys)
 }
+
+provide(treeInjectKey, {
+  slots: useSlots()
+})
 </script>

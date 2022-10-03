@@ -1,5 +1,11 @@
 <template>
-  <div :class="[bem.b(), bem.is('selected', isSeletd)]">
+  <div
+    :class="[
+      bem.b(),
+      bem.is('selected', isSeletd),
+      bem.is('disabled', node.disabled)
+    ]"
+  >
     <div
       :class="bem.e('content')"
       :style="{ paddingLeft: `${node.level * 16}px` }"
@@ -17,9 +23,9 @@
           <Loading v-else></Loading>
         </y-icon>
       </span>
-      <span @click="handleSeleted" :class="bem.e('label')">{{
-        node?.label
-      }}</span>
+      <span :class="bem.e('label')" @click="handleSeleted">
+        <ZTreeNodeContent :node="node"> </ZTreeNodeContent>
+      </span>
     </div>
   </div>
 </template>
@@ -31,6 +37,7 @@ import Switcher from './icon/switcher'
 import YIcon from '@jasin-y/components/icon'
 import { computed } from 'vue'
 import Loading from './icon/Loading'
+import ZTreeNodeContent from './tree-node-content'
 
 const bem = createNamespace('tree-node')
 
@@ -49,6 +56,7 @@ const isSeletd = computed(() => {
 })
 
 function handleSeleted() {
+  if (props.node.disabled) return
   emit('select', props.node)
 }
 </script>
