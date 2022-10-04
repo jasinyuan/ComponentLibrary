@@ -104,6 +104,12 @@ const handleLoad = (node: TreeOption) => {
   })
 }
 const value = ref<Key[]>([])
+
+const check = ref(true)
+
+const handleChange = (val: boolean) => {
+  console.log(val)
+}
 </script>
 
 <template>
@@ -121,6 +127,12 @@ const value = ref<Key[]>([])
     <template #default="{ node }"> {{ node.key }} - {{ node.label }} </template>
   </y-tree>
   <!-- selectable:可以选择节点  multiple:意味着可以多选节点 -->
+  <y-checkbox
+    v-model="check"
+    :indeterminate="true"
+    label="jiedian"
+    @change="handleChange"
+  ></y-checkbox>
 </template>
 
 <style scoped></style>
