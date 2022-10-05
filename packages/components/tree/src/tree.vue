@@ -10,6 +10,10 @@
           :selected-keys="selectKeysRef"
           @toggle="toggleExpand"
           @select="handleSelect"
+          :show-checkbox="showCheckbox"
+          :checked="isChecked(node)"
+          :disabled="isDisabled(node)"
+          :indeterminate="isIndeterminate(node)"
         ></y-tree-node>
       </template>
     </y-virtual-list>
@@ -211,4 +215,20 @@ function handleSelect(node: TreeNode) {
 provide(treeInjectKey, {
   slots: useSlots()
 })
+
+const checkedKeysRefs = ref(new Set(props.defaultCheckedKeys))
+
+const isChecked = (node: TreeNode) => {
+  return checkedKeysRefs.value.has(node.key)
+}
+
+const isDisabled = (node: TreeNode) => {
+  return !!node.disabled
+}
+
+const isIndeterminteRefs = ref<Set<Key>>(new Set())
+
+const isIndeterminate = (node: TreeNode) => {
+  return true
+}
 </script>
