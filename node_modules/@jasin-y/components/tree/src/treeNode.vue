@@ -23,8 +23,14 @@
           <Loading v-else></Loading>
         </y-icon>
       </span>
+      <y-checkbox
+        v-if="showCheckbox"
+        :mode-value="checked"
+        :disabled="disabled"
+        :indeterminate="indeterminate"
+      ></y-checkbox>
       <span :class="bem.e('label')" @click="handleSeleted">
-        <ZTreeNodeContent :node="node"> </ZTreeNodeContent>
+        <YTreeNodeContent :node="node"> </YTreeNodeContent>
       </span>
     </div>
   </div>
@@ -37,7 +43,8 @@ import Switcher from './icon/switcher'
 import YIcon from '@jasin-y/components/icon'
 import { computed } from 'vue'
 import Loading from './icon/Loading'
-import ZTreeNodeContent from './tree-node-content'
+import YTreeNodeContent from './tree-node-content'
+import YCheckbox from '@jasin-y/components/checkbox'
 
 const bem = createNamespace('tree-node')
 

@@ -62,34 +62,34 @@ function nextLabel(currentLabel?: string | number): string {
   }
   return ''
 }
-const data = ref(createData())
-// const data = ref<TreeOption[]>([
-//   {
-//     key: '0',
-//     label: '0',
-//     children: [
-//       {
-//         key: '0-0',
-//         label: '0-0'
-//       },
-//       {
-//         disabled: true, //这个节点被禁用了
-//         key: '0-1',
-//         label: '0-1',
-//         children: [
-//           {
-//             label: '0-1-0',
-//             key: '0-1-0'
-//           },
-//           {
-//             label: '0-1-1',
-//             key: '0-1-1'
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// ])
+// const data = ref(createData())
+const data = ref<TreeOption[]>([
+  {
+    key: '0',
+    label: '0',
+    children: [
+      {
+        key: '0-0',
+        label: '0-0'
+      },
+      {
+        disabled: true, //这个节点被禁用了
+        key: '0-1',
+        label: '0-1',
+        children: [
+          {
+            label: '0-1-0',
+            key: '0-1-0'
+          },
+          {
+            label: '0-1-1',
+            key: '0-1-1'
+          }
+        ]
+      }
+    ]
+  }
+])
 const handleLoad = (node: TreeOption) => {
   return new Promise<TreeOption[]>((resolve, result) => {
     setTimeout(() => {
@@ -123,16 +123,12 @@ const handleChange = (val: boolean) => {
     :on-load="handleLoad"
     selectable
     multiple
+    :show-checkbox="true"
+    :default-checked-keys="['40', '41']"
   >
     <template #default="{ node }"> {{ node.key }} - {{ node.label }} </template>
   </y-tree>
   <!-- selectable:可以选择节点  multiple:意味着可以多选节点 -->
-  <y-checkbox
-    v-model="check"
-    :indeterminate="true"
-    label="jiedian"
-    @change="handleChange"
-  ></y-checkbox>
 </template>
 
 <style scoped></style>
