@@ -2,9 +2,9 @@
   <label :class="bem.b()">
     <span :class="bem.e('input')">
       <input
-        type="checkbox"
-        v-model="model"
         ref="inputRef"
+        v-model="model"
+        type="checkbox"
         :disabled="disabled"
         :value="label"
         @change="handleChange"
@@ -42,7 +42,7 @@ const model = computed<any>({
 })
 const inputRef = ref<HTMLInputElement>()
 const indeterminate = (val: boolean) => {
-  inputRef.value!.indeterminate = true
+  inputRef.value!.indeterminate = val
 }
 
 watch(() => props.indeterminate, indeterminate)

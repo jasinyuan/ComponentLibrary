@@ -28,6 +28,7 @@
         :mode-value="checked"
         :disabled="disabled"
         :indeterminate="indeterminate"
+        @change="handleCheckedChange"
       ></y-checkbox>
       <span :class="bem.e('label')" @click="handleSeleted">
         <YTreeNodeContent :node="node"> </YTreeNodeContent>
@@ -62,8 +63,11 @@ const isSeletd = computed(() => {
   return props.selectedKeys.includes(props.node.key)
 })
 
-function handleSeleted() {
+const handleSeleted = () => {
   if (props.node.disabled) return
   emit('select', props.node)
+}
+const handleCheckedChange = (val: boolean) => {
+  emit('check', props.node, val)
 }
 </script>

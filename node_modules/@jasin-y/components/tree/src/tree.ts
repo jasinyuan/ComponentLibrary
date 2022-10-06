@@ -12,6 +12,7 @@ export interface TreeNode extends Required<TreeOption> {
   rawNode: TreeOption
   children: TreeNode[]
   isLeaf: boolean
+  parentKey: Key | undefined
 }
 //Required将类型中所有选项变为必选，去除所有？
 
@@ -95,7 +96,8 @@ export const treeNodeProps = {
 
 export const treeNodeEmitts = {
   toggle: (node: TreeNode) => node,
-  select: (node: TreeNode) => node
+  select: (node: TreeNode) => node,
+  check: (node: TreeNode, val: boolean) => typeof val === 'boolean'
 }
 
 export const treeEmitts = {
