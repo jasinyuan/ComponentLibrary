@@ -129,6 +129,19 @@ const handleChange = (val: boolean) => {
     <template #default="{ node }"> {{ node.key }} - {{ node.label }} </template>
   </y-tree>
   <!-- selectable:可以选择节点  multiple:意味着可以多选节点 -->
+  <y-button
+    size="medium"
+    type="danger"
+    :round="true"
+    :loading="true"
+    :disabled="true"
+    >按钮
+    <template #icon>
+      <y-icon>
+        <AddCircle></AddCircle>
+      </y-icon>
+    </template>
+  </y-button>
 </template>
 
 <style scoped></style>

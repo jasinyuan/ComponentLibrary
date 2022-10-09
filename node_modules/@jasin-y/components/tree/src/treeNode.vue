@@ -40,10 +40,10 @@
 <script setup lang="ts">
 import { createNamespace } from '@jasin-y/utils/create'
 import { treeNodeEmitts, treeNodeProps } from './tree'
-import Switcher from './icon/switcher'
+import Switcher from '@jasin-y/components/internal-icon/switcher'
 import YIcon from '@jasin-y/components/icon'
 import { computed } from 'vue'
-import Loading from './icon/Loading'
+import Loading from '@jasin-y/components/internal-icon/Loading'
 import YTreeNodeContent from './tree-node-content'
 import YCheckbox from '@jasin-y/components/checkbox'
 

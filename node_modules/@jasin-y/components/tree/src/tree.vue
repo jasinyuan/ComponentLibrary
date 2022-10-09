@@ -134,6 +134,8 @@ const flattenTree = computed(() => {
 })
 function isExpanded(node: TreeNode): boolean {
   return expandedKeySet.value.has(node.key)
+  //has()方法用来拦截 HasProperty 操作，即判断对象是否具有某个属性时，这个方法会生效。
+  //has()方法可以接受两个参数，分别是目标对象、需查询的属性名。
 }
 //折叠
 function collpase(node: TreeNode) {
